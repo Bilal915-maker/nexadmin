@@ -1,0 +1,8 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "echo 'Static landing page'",
+  "outputDirectory": ".",
+  "routes": [
+    { "src": "/(.*)", "dest": "/landing.html" }
+  ]
+}

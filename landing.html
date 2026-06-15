@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexAdmin — Votre administration, pilotée par l'IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;1,14..32,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0F1923;
+  --white:#FAFAF8;
+  --green:#4FFFB0;
+  --green-dark:#1A5C3A;
+  --gray:#8B8B8B;
+  --gray-light:#F2F2F0;
+  --border:#E4E4E0;
+  --red:#FF4444;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--white);color:var(--black);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(250,250,248,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.03em;color:var(--black)}
+.logo span{color:#1DB967}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{text-decoration:none;color:var(--gray);font-size:14px;font-weight:500;transition:color .15s}
+.nav-links a:hover{color:var(--black)}
+.nav-cta{background:var(--black);color:var(--white)!important;padding:9px 22px;border-radius:100px;font-size:14px;font-weight:600;text-decoration:none;transition:opacity .15s}
+.nav-cta:hover{opacity:.8}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2rem 5rem;background:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(31,255,176,.08), transparent)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:#E8FFF4;color:#0A7A45;border:1px solid #B3EACC;padding:6px 16px;border-radius:100px;font-size:13px;font-weight:500;margin-bottom:2.5rem;letter-spacing:.02em}
+.pulse{width:7px;height:7px;background:#1DB967;border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,6vw,5rem);font-weight:800;line-height:1.02;letter-spacing:-.04em;max-width:860px;margin-bottom:1.5rem}
+h1 em{font-style:normal;color:#1DB967}
+.hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--gray);max-width:500px;line-height:1.75;margin-bottom:3rem}
+.hero-btns{display:flex;flex-direction:column;align-items:center;gap:12px}
+.btn-primary{background:var(--black);color:var(--white);padding:16px 40px;border-radius:100px;font-size:16px;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:transform .15s,opacity .15s;display:inline-block}
+.btn-primary:hover{transform:translateY(-2px);opacity:.9}
+.hero-note{font-size:13px;color:var(--gray)}
+.hero-note strong{color:var(--black)}
+
+/* PROOF STRIP */
+.proof{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.5rem 2rem;display:flex;justify-content:center;flex-wrap:wrap;gap:3rem;background:var(--gray-light)}
+.proof-item{font-size:14px;color:var(--gray);display:flex;align-items:center;gap:8px}
+.proof-item strong{color:var(--black);font-weight:600}
+
+/* SECTIONS */
+section{padding:6rem 2rem}
+.container{max-width:960px;margin:0 auto}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#1DB967;margin-bottom:1rem}
+h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1rem}
+.section-sub{font-size:1.05rem;color:var(--gray);max-width:560px;margin-bottom:3.5rem;line-height:1.75}
+
+/* AGENT DEMO */
+.agent-demo{background:var(--black);border-radius:20px;padding:2px;overflow:hidden;margin-top:3rem}
+.agent-demo-inner{background:#111820;border-radius:18px;padding:2rem}
+.terminal-header{display:flex;align-items:center;gap:8px;margin-bottom:1.5rem}
+.dot{width:12px;height:12px;border-radius:50%}
+.dot-red{background:#FF5F57}
+.dot-yellow{background:#FEBC2E}
+.dot-green{background:#28C840}
+.terminal-title{font-size:12px;color:#888;margin-left:8px}
+.log-line{font-family:'SF Mono',monospace;font-size:13px;line-height:2;display:flex;align-items:flex-start;gap:12px}
+.log-time{color:#555;min-width:60px;flex-shrink:0}
+.log-icon{min-width:20px;text-align:center}
+.log-text{color:#C8D0DB}
+.log-text .highlight{color:#4FFFB0;font-weight:500}
+.log-text .amount{color:#FFD700}
+.log-text .check{color:#28C840}
+
+/* FEATURES GRID */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:3rem}
+.feature-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:border-color .2s,box-shadow .2s}
+.feature-card:hover{border-color:#1DB967;box-shadow:0 0 0 4px rgba(29,185,103,.06)}
+.feature-icon{width:44px;height:44px;border-radius:12px;background:#E8FFF4;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.25rem}
+.feature-card h3{font-size:16px;font-weight:600;margin-bottom:.5rem}
+.feature-card p{font-size:13.5px;color:var(--gray);line-height:1.65}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:3rem}
+.price-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:2rem;position:relative;transition:border-color .2s}
+.price-card.featured{border:2px solid var(--black)}
+.popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--black);color:var(--white);font-size:11px;font-weight:600;padding:5px 16px;border-radius:100px;letter-spacing:.04em;white-space:nowrap}
+.plan-name{font-size:13px;font-weight:600;color:var(--gray);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.75rem}
+.plan-price{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:.25rem}
+.plan-price sup{font-size:1.25rem;vertical-align:top;margin-top:.4rem}
+.plan-desc{font-size:13px;color:var(--gray);margin-bottom:1.75rem}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:2rem}
+.plan-features li{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.plan-features li::before{content:'✓';color:#1DB967;font-weight:700;flex-shrink:0}
+.roi-note{font-size:12px;color:#1DB967;background:#E8FFF4;border-radius:8px;padding:8px 12px;margin-bottom:1.5rem}
+
+/* ROI CALCULATOR */
+.roi-calc{background:var(--black);border-radius:20px;padding:2.5rem;margin-top:3rem;color:var(--white)}
+.roi-calc h3{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+.roi-calc p{color:#888;font-size:14px;margin-bottom:2rem}
+.calc-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.calc-label{font-size:14px;color:#888;min-width:160px}
+.calc-input{background:#1A2530;border:1px solid #2A3540;border-radius:10px;color:white;padding:10px 14px;font-size:16px;font-weight:600;width:100px;text-align:center;outline:none}
+.calc-input:focus{border-color:#4FFFB0}
+.calc-result{background:#1A2530;border-radius:14px;padding:1.5rem;margin-top:1.5rem}
+.calc-result-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:10px}
+.calc-result-row span:first-child{color:#888}
+.calc-result-row span:last-child{color:white;font-weight:500}
+.calc-result-row.total span:last-child{color:#4FFFB0;font-size:1.1rem;font-weight:700}
+.calc-result-row.ratio span:last-child{color:#FFD700;font-weight:700}
+
+/* SECURITY */
+.security-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:3rem}
+.security-item{display:flex;gap:14px;padding:1.25rem;background:var(--white);border:1px solid var(--border);border-radius:14px}
+.security-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px}
+.security-item h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.security-item p{font-size:12.5px;color:var(--gray);line-height:1.6}
+
+/* CTA FINAL */
+.cta-section{background:var(--black);color:var(--white);text-align:center}
+.cta-section h2{color:var(--white)}
+.cta-section h2 em{color:#4FFFB0}
+.cta-section .section-sub{color:#888}
+.btn-light{background:var(--white);color:var(--black);padding:16px 40px;border-radius:100px;font-size:16px;font-weight:700;text-decoration:none;display:inline-block;transition:opacity .15s;margin-top:2rem}
+.btn-light:hover{opacity:.9}
+
+footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-size:13px;color:var(--gray)}
+
+@media(max-width:640px){
+  nav{padding:.75rem 1rem}
+  .nav-links{display:none}
+  .proof{gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Nex<span>Admin</span></div>
+  <div class="nav-links">
+    <a href="#features">Fonctionnalités</a>
+    <a href="#pricing">Tarifs</a>
+    <a href="#security">Sécurité</a>
+    <a href="#demo" class="nav-cta">Demander une démo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow"><div class="pulse"></div>Agent IA actif 24h/24 · Données 100% sécurisées · RGPD</div>
+  <h1>Votre administration,<br><em>pilotée par l'IA</em></h1>
+  <p class="hero-sub">NexAdmin gère vos devis, factures, relances et trésorerie à votre place. Vous retrouvez 6 à 8 heures par semaine.</p>
+  <div class="hero-btns">
+    <a href="#demo" class="btn-primary">Voir comment ça fonctionne →</a>
+    <p class="hero-note">Essai gratuit 30 jours · <strong>Aucune carte bancaire requise</strong></p>
+  </div>
+</section>
+
+<!-- PROOF -->
+<div class="proof">
+  <div class="proof-item"><strong>6-8h</strong> récupérées par semaine</div>
+  <div class="proof-item"><strong>100%</strong> données isolées par client</div>
+  <div class="proof-item"><strong>Triple</strong> vérification des calculs</div>
+  <div class="proof-item"><strong>RGPD</strong> natif · Hébergement EU</div>
+  <div class="proof-item"><strong>Zéro</strong> envoi sans votre accord</div>
+</div>
+
+<!-- DEMO AGENT -->
+<section id="demo">
+  <div class="container">
+    <p class="eyebrow">En temps réel</p>
+    <h2>L'agent travaille pendant que vous êtes sur chantier</h2>
+    <p class="section-sub">Voici ce que NexAdmin fait automatiquement en une matinée pour un artisan BTP.</p>
+
+    <div class="agent-demo">
+      <div class="agent-demo-inner">
+        <div class="terminal-header">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+          <span class="terminal-title">NexAdmin · Agent administratif · Lun 15 juin 2026</span>
+        </div>
+        <div class="log-line"><span class="log-time">08:02</span><span class="log-icon">📧</span><span class="log-text">Demande reçue de <span class="highlight">Martin Dupont</span> : "Bonjour, je cherche un plombier pour remplacer ma chaudière"</span></div>
+        <div class="log-line"><span class="log-time">08:02</span><span class="log-icon">🤖</span><span class="log-text">Qualification automatique : chantier estimé <span class="amount">800-1 200€</span> · Secteur chauffage · Urgence : normale</span></div>
+        <div class="log-line"><span class="log-time">08:03</span><span class="log-icon">📤</span><span class="log-text">Réponse envoyée à M. Dupont : disponibilité proposée mer 17 juin 9h ou jeu 18 juin 14h</span></div>
+        <div class="log-line"><span class="log-time">09:15</span><span class="log-icon">🧮</span><span class="log-text">Calcul devis Rénovation salle de bain — <span class="highlight">Mme Leblanc</span> · Triple vérification : <span class="amount check">2 340,00€ TTC</span> ✓✓✓</span></div>
+        <div class="log-line"><span class="log-time">09:15</span><span class="log-icon">⏳</span><span class="log-text">Devis DEVIS-2026-042 prêt · <span class="highlight">En attente de votre validation</span> avant envoi</span></div>
+        <div class="log-line"><span class="log-time">10:30</span><span class="log-icon">🔴</span><span class="log-text">Facture FAC-2026-031 de <span class="amount">1 800€</span> — retard de 32 jours · Relance J+30 envoyée à <span class="highlight">BTP Martin SAS</span></span></div>
+        <div class="log-line"><span class="log-time">10:30</span><span class="log-icon">📊</span><span class="log-text">Trésorerie mai 2026 : CA <span class="amount check">8 420€</span> · Objectif 8 000€ · <span class="check">Objectif atteint ✓</span></span></div>
+        <div class="log-line"><span class="log-time">10:31</span><span class="log-icon">🛡️</span><span class="log-text">Agent Gardien : tous les systèmes nominaux · 0 anomalie détectée ce matin</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="background:var(--gray-light);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <p class="eyebrow">Ce que fait NexAdmin</p>
+    <h2>Un agent, pas un logiciel</h2>
+    <p class="section-sub">La différence : un logiciel attend vos actions. NexAdmin agit à votre place.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Devis automatiques</h3>
+        <p>Un client envoie un email · NexAdmin génère le devis, le calcule en triple vérification et vous le soumet pour validation. Envoyé en 1 clic.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💶</div>
+        <h3>Relances impayées</h3>
+        <p>J+30, J+45, J+60 : les relances partent automatiquement, avec le bon ton selon l'ancienneté du retard. Zéro client oublié.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Réponse clients 24h/24</h3>
+        <p>Pendant que vous êtes sur chantier, NexAdmin répond, qualifie et planifie. Le client ne reste jamais sans réponse.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Dashboard trésorerie</h3>
+        <p>Vue en temps réel : CA du mois, objectif, impayés, alertes. Vous savez exactement où vous en êtes, sans Excel.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧾</div>
+        <h3>Facturation électronique 2026</h3>
+        <p>Conformité automatique à l'obligation de septembre 2026. NexAdmin gère le format réglementaire sans que vous ayez à y penser.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📬</div>
+        <h3>Rapport hebdomadaire</h3>
+        <p>Chaque lundi matin : résumé de la semaine, actions à prendre, alertes. Tout en 2 minutes de lecture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <p class="eyebrow">Tarifs</p>
+    <h2>Prix transparent, valeur prouvée</h2>
+    <p class="section-sub">Chaque plan se rembourse avec les premières heures récupérées.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><sup>€</sup>297</div>
+        <div class="plan-desc">/mois · 1 à 5 salariés</div>
+        <div class="roi-note">🏆 Vous récupérez ~1 054€ de valeur/mois</div>
+        <ul class="plan-features">
+          <li>Génération devis & factures IA</li>
+          <li>Relances impayées automatiques</li>
+          <li>Réponse clients 24h/24</li>
+          <li>Dashboard trésorerie</li>
+          <li>Rapport hebdomadaire</li>
+          <li>2 000 emails inclus/mois</li>
+        </ul>
+        <a href="#demo" class="btn-primary" style="display:block;text-align:center">Commencer l'essai gratuit</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="popular-badge">PLUS POPULAIRE</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><sup>€</sup>497</div>
+        <div class="plan-desc">/mois · 6 à 15 salariés</div>
+        <div class="roi-note">🏆 Vous récupérez ~2 108€ de valeur/mois</div>
+        <ul class="plan-features">
+          <li>Tout Starter +</li>
+          <li>Multi-utilisateurs (5 accès)</li>
+          <li>Modules sectoriels BTP</li>
+          <li>CRM clients avancé</li>
+          <li>Intégration agenda chantiers</li>
+          <li>8 000 emails inclus/mois</li>
+        </ul>
+        <a href="#demo" class="btn-primary" style="display:block;text-align:center">Commencer l'essai gratuit</a>
+      </div>
+
+      <div class="price-card">
+        <div class="plan-name">Business</div>
+        <div class="plan-price"><sup>€</sup>897</div>
+        <div class="plan-desc">/mois · 15 à 50 salariés</div>
+        <div class="roi-note">🏆 Vous récupérez ~4 200€+ de valeur/mois</div>
+        <ul class="plan-features">
+          <li>Tout Pro +</li>
+          <li>Multi-sites illimité</li>
+          <li>API personnalisée</li>
+          <li>Onboarding dédié</li>
+          <li>SLA 99,9% garanti</li>
+          <li>25 000 emails inclus/mois</li>
+        </ul>
+        <a href="#demo" class="btn-primary" style="display:block;text-align:center">Contacter l'équipe</a>
+      </div>
+    </div>
+
+    <!-- ROI CALCULATOR -->
+    <div class="roi-calc">
+      <h3>Calculez votre retour sur investissement</h3>
+      <p>Combien NexAdmin vous fait-il économiser chaque mois ?</p>
+      <div class="calc-row">
+        <span class="calc-label">Nombre de salariés</span>
+        <input type="number" class="calc-input" id="employees" value="5" min="1" max="50" oninput="updateROI()">
+      </div>
+      <div class="calc-result" id="roi-result">
+        <div class="calc-result-row"><span>Heures récupérées/mois</span><span id="hours">108h</span></div>
+        <div class="calc-result-row"><span>Valeur récupérée (base SMIC)</span><span id="value">1 054€</span></div>
+        <div class="calc-result-row"><span>Plan recommandé</span><span id="plan">Starter · 297€/mois</span></div>
+        <div class="calc-result-row ratio"><span>Ratio valeur / prix</span><span id="ratio">× 3,5</span></div>
+        <div class="calc-result-row total"><span>Économie nette mensuelle</span><span id="net">757€/mois</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section id="security" style="background:var(--gray-light);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <p class="eyebrow">Sécurité & conformité</p>
+    <h2>Vos données ne nous appartiennent pas</h2>
+    <p class="section-sub">Architecture conçue pour la sécurité maximum dès le premier jour.</p>
+    <div class="security-grid">
+      <div class="security-item">
+        <div class="security-icon">🔒</div>
+        <div><h4>Isolation totale</h4><p>Chaque client a sa propre base de données isolée. Zéro donnée partagée entre clients.</p></div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">🧮</div>
+        <div><h4>Triple vérification</h4><p>Chaque calcul financier est effectué et vérifié par 3 agents indépendants avant utilisation.</p></div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">👤</div>
+        <div><h4>Validation humaine</h4><p>Aucun email officiel (devis, facture) n'est envoyé sans votre accord explicite.</p></div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">🛡️</div>
+        <div><h4>Agent Gardien 24h/24</h4><p>Un agent surveille en permanence et corrige automatiquement toute anomalie.</p></div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">🇪🇺</div>
+        <div><h4>Hébergement EU</h4><p>Toutes vos données restent en Europe (Frankfurt, Ireland). RGPD natif.</p></div>
+      </div>
+      <div class="security-item">
+        <div class="security-icon">📜</div>
+        <div><h4>Conformité 2026</h4><p>Facturation électronique obligatoire sept. 2026 gérée automatiquement. AI Act conforme.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="container">
+    <p class="eyebrow" style="color:#4FFFB0">Prochaine étape</p>
+    <h2>Récupérez votre temps.<br><em>Dès cette semaine.</em></h2>
+    <p class="section-sub" style="margin:0 auto">Essai gratuit 30 jours. Pas de carte bancaire. Installation en moins de 15 minutes.</p>
+    <a href="mailto:contact@nexadmin.fr" class="btn-light">Demander une démo gratuite →</a>
+    <p style="color:#555;font-size:13px;margin-top:1.5rem">Ou appelez le <strong style="color:#888">+33 1 XX XX XX XX</strong> · Réponse sous 2h</p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 NexAdmin · Tous droits réservés · <a href="#" style="color:var(--gray)">CGU</a> · <a href="#" style="color:var(--gray)">Confidentialité</a> · <a href="#" style="color:var(--gray)">RGPD</a></p>
+  <p style="margin-top:6px;font-size:12px;color:#bbb">Hébergement : Vercel Europe · Base de données : Supabase EU · Emails : Amazon SES Ireland · IA : Anthropic Claude</p>
+</footer>
+
+<script>
+function updateROI() {
+  const employees = parseInt(document.getElementById('employees').value) || 1;
+  const smicNet = 9.74;
+  const hoursPerWeek = 5;
+  const weeksPerMonth = 4.33;
+  
+  const hoursMonth = Math.round(hoursPerWeek * employees * weeksPerMonth);
+  const valueMonth = Math.round(hoursMonth * smicNet);
+  
+  let plan, price;
+  if (employees <= 5) { plan = 'Starter'; price = 297; }
+  else if (employees <= 15) { plan = 'Pro'; price = 497; }
+  else { plan = 'Business'; price = 897; }
+  
+  const ratio = (valueMonth / price).toFixed(1);
+  const net = valueMonth - price;
+  
+  document.getElementById('hours').textContent = hoursMonth + 'h';
+  document.getElementById('value').textContent = valueMonth.toLocaleString('fr-FR') + '€';
+  document.getElementById('plan').textContent = plan + ' · ' + price + '€/mois';
+  document.getElementById('ratio').textContent = '× ' + ratio;
+  document.getElementById('net').textContent = net.toLocaleString('fr-FR') + '€/mois';
+}
+
+updateROI();
+</script>
+</body>
+</html>
