@@ -36,3 +36,4 @@ export async function getTenantFromAuth(authUserId: string) {
   if (error || !data) return null;
   return data;
 }
+
