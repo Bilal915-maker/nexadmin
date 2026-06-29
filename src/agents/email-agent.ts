@@ -254,3 +254,4 @@ body { font-family: -apple-system, sans-serif; color: #1a1a1a; line-height: 1.6;
     text: `Bonjour ${data.clientName},\n\nRappel: la facture ${data.invoiceRef} de ${data.amountTTC.toFixed(2)}€ est due le ${data.dueDate}.\n\nPour régler: ${data.paymentUrl}\n\n${data.companyName}`,
   }),
 };
+
