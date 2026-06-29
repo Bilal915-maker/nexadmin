@@ -87,3 +87,4 @@ export function calculateClientROI(employees: number): {
 export const EMAIL_OVERAGE_PRICE_PER_1000 = 15; // € par 1000 emails
 export const EMAIL_COST_PER_1000_SES = 0.094; // $ Amazon SES EU
 export const EMAIL_MARGIN_PER_1000 = EMAIL_OVERAGE_PRICE_PER_1000 - EMAIL_COST_PER_1000_SES;
+
