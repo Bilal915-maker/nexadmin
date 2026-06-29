@@ -211,3 +211,4 @@ export async function quickVerify(amountHT: number, vatRate: number): Promise<{
     verified: result.verified,
   };
 }
+
