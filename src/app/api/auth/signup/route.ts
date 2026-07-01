@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     const { data: tenant, error: tenantError } = await supabaseAdmin
       .from("tenants")
-      .insert({ company_name: companyName, sector: sector || "BTP", email, plan: "starter", schema_name: schemaName })
+      .insert({ company_name: companyName, sector: sector || "autre", email, plan: "starter", schema_name: schemaName })
       .select().single();
 
     if (tenantError) return NextResponse.json({ error: tenantError.message }, { status: 400 });

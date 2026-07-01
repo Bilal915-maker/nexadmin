@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "NexAdmin — Administration automatisée pour artisans BTP",
-  description: "Agent IA pour artisans BTP",
+  title: "GIDEON Agents IA — Votre employé IA, livré en 48h",
+  description: "Agents IA sur mesure pour automatiser l'administratif de votre entreprise, tous secteurs.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
