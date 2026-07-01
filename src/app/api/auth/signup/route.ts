@@ -1,122 +1,53 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+export const dynamic = 'force-dynamic';
 
-/**
- * POST /api/auth/signup
- * Crée un nouveau compte client NexAdmin :
- * 1. Crée l'utilisateur dans Supabase Auth
- * 2. Crée la ligne tenant dans public.tenants
- * 3. Crée le schéma PostgreSQL isolé pour ce client
- * 4. Lie l'utilisateur au tenant
- */
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+
+function getAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { email, password, companyName, sector, plan, phone, siret } = body;
+    const supabaseAdmin = getAdmin();
+    const { email, password, companyName, sector } = await req.json();
 
     if (!email || !password || !companyName) {
-      return NextResponse.json(
-        { error: "Email, mot de passe et nom d'entreprise requis" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Champs requis manquants" }, { status: 400 });
     }
 
-    // 1. Créer l'utilisateur dans Supabase Auth
-    const { data: authData, error: authError } =
-      await supabaseAdmin.auth.admin.createUser({
-        email,
-        password,
-        email_confirm: true, // auto-confirme, pas besoin de validation email pour démarrer vite
-      });
+    const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
+      email, password, email_confirm: true,
+    });
 
-    if (authError || !authData.user) {
-      return NextResponse.json(
-        { error: authError?.message ?? "Erreur création utilisateur" },
-        { status: 400 }
-      );
-    }
+    if (authError) return NextResponse.json({ error: authError.message }, { status: 400 });
 
-    const authUserId = authData.user.id;
-
-    // 2. Créer le tenant
-    const schemaSlug = companyName
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // enlève les accents
-      .replace(/[^a-z0-9]+/g, "_")
-      .replace(/^_+|_+$/g, "")
-      .substring(0, 40);
-
-    const schemaName = `tenant_${schemaSlug}_${Date.now().toString(36)}`;
+    const schemaName = "tenant_" + Date.now().toString(36);
 
     const { data: tenant, error: tenantError } = await supabaseAdmin
       .from("tenants")
-      .insert({
-        company_name: companyName,
-        sector: sector ?? "BTP",
-        plan: plan ?? "starter",
-        email,
-        phone: phone ?? null,
-        siret: siret ?? null,
-        subscription_status: "trial",
-        schema_name: schemaName,
-      })
-      .select()
-      .single();
+      .insert({ company_name: companyName, sector: sector || "BTP", email, plan: "starter", schema_name: schemaName })
+      .select().single();
 
-    if (tenantError || !tenant) {
-      // rollback: supprime l'utilisateur auth créé si le tenant échoue
-      await supabaseAdmin.auth.admin.deleteUser(authUserId);
-      return NextResponse.json(
-        { error: tenantError?.message ?? "Erreur création tenant" },
-        { status: 400 }
-      );
-    }
+    if (tenantError) return NextResponse.json({ error: tenantError.message }, { status: 400 });
 
-    // 3. Créer le schéma isolé pour ce client
-    const { error: schemaError } = await supabaseAdmin.rpc(
-      "create_tenant_schema",
-      { tenant_id: tenant.id, schema_name: schemaName }
-    );
-
-    if (schemaError) {
-      return NextResponse.json(
-        { error: `Tenant créé mais schéma échoué: ${schemaError.message}` },
-        { status: 500 }
-      );
-    }
-
-    // 4. Lier l'utilisateur au tenant (owner)
-    const { error: linkError } = await supabaseAdmin
-      .from("tenant_users")
-      .insert({
-        tenant_id: tenant.id,
-        auth_user_id: authUserId,
-        role: "owner",
-      });
-
-    if (linkError) {
-      return NextResponse.json(
-        { error: `Erreur liaison utilisateur: ${linkError.message}` },
-        { status: 500 }
-      );
-    }
-
-    return NextResponse.json({
-      success: true,
-      tenant: {
-        id: tenant.id,
-        companyName: tenant.company_name,
-        sector: tenant.sector,
-        plan: tenant.plan,
-        schemaName: tenant.schema_name,
-      },
+    await supabaseAdmin.from("tenant_users").insert({
+      tenant_id: tenant.id,
+      auth_user_id: authData.user!.id,
+      role: "owner",
     });
+
+    await supabaseAdmin.rpc("create_tenant_schema", {
+      tenant_id: tenant.id,
+      schema_name: schemaName,
+    });
+
+    return NextResponse.json({ success: true, tenant: { id: tenant.id, companyName, schemaName } });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: err?.message ?? "Erreur inconnue" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err.message || "Erreur inconnue" }, { status: 500 });
   }
 }
-
