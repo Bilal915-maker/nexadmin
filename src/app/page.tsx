@@ -1,11 +1,28 @@
+"use client";
+import { useEffect } from "react";
+
 export default function Home() {
+  useEffect(() => {
+    // Redirige vers la landing statique
+    window.location.href = "/landing.html";
+  }, []);
+  
   return (
-    <main style={{ padding: "60px 20px", maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-      <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 16 }}>NexAdmin</h1>
-      <p style={{ color: "#666", marginBottom: 32 }}>Administration automatisée pour artisans BTP</p>
-      <a href="/test" style={{ background: "#0F1923", color: "white", padding: "12px 28px", borderRadius: 100, textDecoration: "none", fontWeight: 700 }}>
-        Créer un compte test →
-      </a>
-    </main>
+    <div style={{
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center", 
+      justifyContent: "center",
+      fontFamily: "Inter, sans-serif",
+      background: "#0F1923",
+      color: "white"
+    }}>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: 14, color: "#1DB967", marginBottom: 16, fontWeight: 700 }}>
+          ● NexAdmin
+        </div>
+        <div style={{ fontSize: 16, color: "#888" }}>Chargement...</div>
+      </div>
+    </div>
   );
 }
