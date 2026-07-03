@@ -164,3 +164,106 @@ Pour NexAdmin / artisans BTP :
 - Le contenu storytelling des lives (marketing Studeria, pas méthode technique)
 - Le stack Clay/LinkedIn pour la prospection → artisans BTP ne sont quasiment pas sur LinkedIn
 - La formation consultant IA → hors scope (un seul business actif)
+
+---
+
+## JOUR 5 — BETTER CALL STUDERIA (extraits actionnables uniquement)
+
+### Nouveaux outils démontrés
+
+**Google Stitch** (gratuit)
+- Concurrent de Claude Design pour le maquettage d'applications
+- Génère des maquettes UI complètes depuis un prompt texte (palette couleurs, polices, pages)
+- Export : ZIP, HTML, Figma
+- Youes préfère Stitch à Claude Design pour la qualité visuelle et l'ergonomie
+- Gratuit, appartient à Google (modèles Gemini)
+
+**NotebookLM** (Google, gratuit)
+- IA qui répond UNIQUEMENT sur la base de documents que tu lui fournis
+- Zéro hallucination : si la réponse n'est pas dans le document, il le dit clairement
+- Usage clé : questions juridiques (conventions collectives, codes du travail), réglementations BTP
+- Peut ingérer jusqu'à 50 fichiers
+- Alternative fiable à ChatGPT/Claude pour tout ce qui nécessite des sources vérifiées
+
+**Open Legi** (connecteur MCP Claude)
+- Base de données juridique française complète (jurisprudences, codes de loi)
+- Branché directement sur Claude via MCP
+- Permet des questions juridiques avec sources réelles (articles de loi, jurisprudences)
+- Créé par des professionnels du droit français
+
+**Delos** (app française)
+- Gestion email avec IA intégrée
+- Bouton "répondre avec IA" directement dans la boîte mail
+- Tu écris quelques mots clés → il génère le mail complet
+- Alternative plus simple au workflow Make pour les réponses rapides
+
+**Warp** (terminal)
+- Interface de terminal utilisée par Youes pour Claude Code
+- Plus ergonomique que le terminal classique
+
+---
+
+### Workflow "Second Cerveau Email" (Make + Claude) — démo complète
+
+**Ce que ça fait :** Pour chaque mail entrant → analyse → cherche l'historique avec cet expéditeur → génère un brouillon de réponse dans Gmail. Jamais d'envoi automatique, tu valides.
+
+**Architecture Make :**
+1. Module déclencheur : Gmail (nouveau mail reçu)
+2. Module Agent IA (modèle ChatGPT ou Claude) avec :
+   - Base de connaissance = document "qui tu es, ce que tu proposes"
+   - Outil 1 : recherche historique des échanges avec cet expéditeur
+   - Outil 2 : créer brouillon de réponse dans Gmail
+3. Sortie : brouillon déposé dans Gmail → tu relis → tu envoies
+
+**Coût réel :** ~0,04-0,05 centimes par mail (modèle ChatGPT API)
+**ROI calculé en live :** 30 mails/jour × 0,05€ = 1,50€/jour vs 2h de travail manuel
+
+**Scénario Make partagé dans le Discord** (clé en main, copiable)
+
+---
+
+### Interface web de génération de contenu (Claude Code + Airtable) — démo Lydia
+
+**Contexte :** Responsable marketing PME fintech, faite seule, besoin d'industrialiser la création de contenu
+
+**Ce que Claude Code a créé en ~20 minutes :**
+- Interface web (cockpit) connectée à Airtable
+- Champ "thématique" → génère automatiquement :
+  1. Mots-clés SEO classés par puissance (12 mots-clés générés)
+  2. Article de blog optimisé (format Markdown)
+  3. 2 posts LinkedIn
+  4. Images via connecteur Xfield
+  5. Séquence de 3 emails
+  6. Structure landing page
+- Tout stocké dans Airtable (tables : thématique, mots-clés, articles, posts LinkedIn, séquence emails, landing page)
+
+**Méthode utilisée :**
+1. Décrire le projet à Claude Code (pas cowork) + feedback "as-tu compris ?"
+2. Claude crée le schéma Airtable (toutes les tables/colonnes) automatiquement
+3. Claude code l'interface web avec gestion d'erreurs
+4. Donner token API Airtable pour connexion
+5. Tester → débugger avec Claude → itérer
+
+**Prix de vente estimé pour ce type d'outil :** 19-99€/mois en abonnement selon les fonctionnalités
+
+**Leçon clé Youes :** "Vendez avec vos 80%. Si tu n'as pas honte de ton MVP, tu l'as sorti trop tard."
+
+---
+
+### Ce qui est directement actionnable pour NexAdmin
+
+1. **Second cerveau email artisans BTP** → agent Make qui gère les demandes de devis par email (analyse, cherche historique client, génère brouillon de réponse) = feature NexAdmin Pro à 497€
+
+2. **NotebookLM + docs BTP** → créer une base de connaissance sur les règles BTP (TVA 10%/20%, mentions légales obligatoires, normes) que l'agent consulte sans halluciner → fiabilise les devis générés
+
+3. **L'interface Lydia = NexAdmin** → ce qu'a construit Youes en 20 minutes pour Lydia est exactement NexAdmin : thématique = chantier, outputs = devis + relance + brief. La différence = NexAdmin est un vrai produit packagé, pas une démo.
+
+4. **Lydia vient d'Amiens** → candidate en live venue d'Amiens, responsable marketing PME. Preuve qu'il y a des gens à Amiens qui cherchent des solutions IA pour leur business. Cible locale directe.
+
+---
+
+### Citation clé J5
+
+"Si tu n'as pas honte de ton MVP, tu l'as sorti trop tard." — Reid Hoffman (fondateur LinkedIn), cité par Youes
+
+"Vendez avec vos 80% parce que c'est en vendant avec vos 80% que vous aurez les moyens de vous payer le 100%."
