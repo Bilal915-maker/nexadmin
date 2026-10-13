@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#050506" />
+    <title>iPhone 15 Pro 3D</title>
+    <meta name="description" content="Animation 3D temps réel d'un iPhone 15 Pro en titane naturel — Three.js / WebGL." />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body data-mode="film">
+    <canvas id="scene" aria-label="Modèle 3D de l'iPhone 15 Pro"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <header class="top">
+      <div class="brand">
+        <span class="eyebrow">Étude 3D · temps réel</span>
+        <strong>iPhone 15 Pro</strong>
+      </div>
+      <nav class="modes" aria-label="Mode d'affichage">
+        <button type="button" data-mode="film" aria-pressed="true">Film</button>
+        <button type="button" data-mode="interactive" aria-pressed="false">Interactif</button>
+      </nav>
+    </header>
+
+    <section id="caption" class="caption" aria-live="polite">
+      <h1 id="cap-title"></h1>
+      <p id="cap-sub"></p>
+    </section>
+
+    <div id="presets" class="presets" role="toolbar" aria-label="Vues" hidden>
+      <button type="button" data-preset="overview">Vue d’ensemble</button>
+      <button type="button" data-preset="cameras">Caméras</button>
+      <button type="button" data-preset="action">Bouton Action</button>
+      <button type="button" data-preset="titanium">Titane</button>
+      <button type="button" data-preset="screen">Écran</button>
+    </div>
+
+    <p id="hint" class="hint" hidden>
+      <span class="desktop">Glissez pour tourner · molette pour zoomer · double‑clic pour recentrer</span>
+      <span class="mobile">Glissez pour tourner · pincez pour zoomer</span>
+    </p>
+
+    <div id="progress" class="progress" aria-hidden="true"><span></span></div>
+
+    <footer class="legal">Modèle procédural non officiel · démo technique, non affiliée à Apple Inc.</footer>
+
+    <div id="loader" class="loader"><div class="spinner"></div><p>Préparation du studio…</p></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
