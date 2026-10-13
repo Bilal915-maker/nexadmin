@@ -18,11 +18,11 @@ Sur mobile (même Wi‑Fi) : utilise l'adresse « Network » affichée par Vite.
 Version de production :
 
 ```bash
-npm run build     # génère dist/
-npm run preview   # sert dist/ sur http://localhost:4173
+npm run build     # génère ../public/iphone-15-pro/
+npm run preview   # sert le build sur http://localhost:4173
 ```
 
-`dist/` est un site statique : déposable tel quel sur Vercel, Netlify, GitHub Pages…
+Le build est écrit dans `../public/iphone-15-pro/` : l'app Next du repo le sert directement sur Vercel à **`/iphone-15-pro`**. Après une modification du code 3D, relance `npm run build` et commite `public/iphone-15-pro/`.
 
 ## Commandes
 
@@ -40,7 +40,7 @@ En mode interactif, les boutons *Caméras / Bouton Action / Titane / Écran* dé
 
 ```
 index.html          UI (titre, modes, légendes, vues)
-public/style.css    styles responsive
+src/style.css       styles responsive
 src/main.js         rendu, post-prod (profondeur de champ, bloom, MSAA), modes film/interactif, entrées
 src/phone.js        géométrie + matériaux du téléphone (dimensions réelles 146,6 × 70,6 × 8,25 mm)
 src/studio.js       studio sombre : environnement HDR procédural, lumières, ombres douces
