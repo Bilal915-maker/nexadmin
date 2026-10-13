@@ -338,7 +338,7 @@ export function createHomePod(renderer) {
   g.add(touch);
 
   const cable = new THREE.Mesh(
-    new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(0, -yEnd + 0.4, -xEnd), new THREE.Vector3(0, -yEnd - 0.2, -5.5), new THREE.Vector3(1.5, -yEnd - 0.3, -12)]), 64, 0.18, 12),
+    new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(0, -yEnd + 0.4, -xEnd), new THREE.Vector3(0, -yEnd - 0.1, -4.6), new THREE.Vector3(0.8, -yEnd - 0.15, -7)]), 64, 0.18, 12),
     mat.plastic(0x2a2a2d, 0.6),
   );
   g.add(cable);

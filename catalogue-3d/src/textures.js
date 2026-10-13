@@ -300,7 +300,7 @@ function wallpaper(ctx, x, y, w, h, colors) {
  * Écran générique : 'ipad' (verrouillage), 'mac' / 'imac' (bureau), 'watch' (cadran).
  */
 export function makeDisplayTexture(renderer, glassW, glassH, { bezel, radius, kind, bezelColor = '#000', notch = false }) {
-  const maxDim = 2048;
+  const maxDim = 1536;
   const s = maxDim / Math.max(glassW, glassH);
   const W = Math.round(glassW * s), H = Math.round(glassH * s);
   const [c, ctx] = canvas(W, H);

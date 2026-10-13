@@ -46,7 +46,7 @@ export const PRODUCTS = [
     points: ['Écrans micro‑OLED', 'visionOS', 'Bandeau Solo Knit'],
   },
   {
-    id: 'homepod', family: 'Maison', name: 'HomePod mini', create: createHomePod, size: 11, rot: [0.2, 0.3], spin: Math.PI * 0.8,
+    id: 'homepod', family: 'Maison', name: 'HomePod mini', create: createHomePod, size: 9.5, rot: [0.5, 0.3], spin: Math.PI * 0.8,
     tagline: 'Une petite sphère qui remplit la pièce.',
     points: ['Son à 360°', 'Siri intégré', 'Surface tactile lumineuse'],
   },
