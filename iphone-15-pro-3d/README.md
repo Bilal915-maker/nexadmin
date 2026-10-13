@@ -18,11 +18,11 @@ Sur mobile (même Wi‑Fi) : utilise l'adresse « Network » affichée par Vite.
 Version de production :
 
 ```bash
-npm run build     # génère ../public/iphone-15-pro/
+npm run build     # génère ../public/iphone-15-pro.html + assets
 npm run preview   # sert le build sur http://localhost:4173
 ```
 
-Le build est écrit dans `../public/iphone-15-pro/` : l'app Next du repo le sert directement sur Vercel à **`/iphone-15-pro`**. Après une modification du code 3D, relance `npm run build` et commite `public/iphone-15-pro/`.
+Le build est écrit dans `../public/iphone-15-pro.html` + `../public/iphone-15-pro-files/` : l’app Next du repo le sert sur Vercel à **`/iphone-15-pro`** (même principe que `public/landing.html`). Après une modification du code 3D, relance `npm run build` et commite ces fichiers.
 
 ## Commandes
 

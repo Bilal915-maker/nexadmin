@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build": "vite build && node -e \"require('fs').renameSync('../public/iphone-15-pro-files/index.html','../public/iphone-15-pro.html')\"",
     "preview": "vite preview --host"
   },
   "dependencies": {
