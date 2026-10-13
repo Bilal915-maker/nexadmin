@@ -1,0 +1,17 @@
+{
+  "name": "catalogue-3d",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build && node -e \"require('fs').renameSync('../public/catalogue-3d-files/index.html','../public/catalogue-3d.html')\"",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "three": "0.160.0"
+  },
+  "devDependencies": {
+    "vite": "5.4.10"
+  }
+}
