@@ -1,0 +1,17 @@
+{
+  "name": "catalogue-pro",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build && node -e \"require('fs').renameSync('../public/catalogue-files/index.html','../public/catalogue.html')\"",
+    "preview": "vite preview --host"
+  },
+  "dependencies": {
+    "three": "0.160.0"
+  },
+  "devDependencies": {
+    "vite": "5.4.10"
+  }
+}
