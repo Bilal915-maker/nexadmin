@@ -1,0 +1,234 @@
+// TECHVERSE — schéma de la base de données du catalogue.
+// Hiérarchie : ProductFamily → ProductGeneration → ProductModel → (variantes, specs, couleurs, prix, sources…)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ValidationStatus {
+  confirmed
+  reported
+  unverified
+}
+
+enum LifecycleStatus {
+  current
+  discontinued
+  announced
+}
+
+model ProductFamily {
+  id          String              @id @default(cuid())
+  slug        String              @unique
+  name        String
+  shortName   String
+  tagline     String
+  description String
+  order       Int
+  /// [{ slug, name }]
+  lines       Json
+  /// Sources communes à la famille : [{ url, type, title, status, checkedAt? }]
+  sources     Json
+  gaps        String[]
+  generations ProductGeneration[]
+  models      ProductModel[]
+}
+
+model ProductGeneration {
+  id       String         @id @default(cuid())
+  slug     String         @unique
+  familyId String
+  family   ProductFamily  @relation(fields: [familyId], references: [id], onDelete: Restrict)
+  line     String
+  name     String
+  year     Int
+  order    Int
+  models   ProductModel[]
+
+  @@index([familyId, year])
+}
+
+model ProductModel {
+  id               String                 @id @default(cuid())
+  slug             String                 @unique
+  name             String
+  familyId         String
+  family           ProductFamily          @relation(fields: [familyId], references: [id], onDelete: Restrict)
+  generationId     String
+  generation       ProductGeneration      @relation(fields: [generationId], references: [id], onDelete: Restrict)
+  line             String
+  aliases          String[]
+  /// Dates ISO (AAAA-MM-JJ ou AAAA-MM si le jour n'est pas documenté)
+  announced        String?
+  released         String?
+  discontinued     String?
+  status           LifecycleStatus
+  statusNote       String?
+  summary          String
+  highlights       String[]
+  identifiers      String[]
+  storageGB        Int[]
+  ramGB            Int[]
+  chips            String[]
+  screenInches     Float?
+  sizes            String[]
+  connectivity     String[]
+  connector        String?
+  os               String?
+  /// [{ label?, heightMm?, widthMm?, depthMm?, weightG?, note? }]
+  dimensions       Json
+  /// Paramètres de la représentation procédurale 3D { kind, params }
+  visual           Json
+  validationStatus ValidationStatus       @default(unverified)
+  reviewedAt       String?
+  validationNotes  String[]
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  variants         ProductVariant[]
+  specifications   ProductSpecification[]
+  colors           ProductColor[]
+  images           ProductImage[]
+  assets3d         ProductAsset3D[]
+  compatibilities  ProductCompatibility[]
+  prices           ProductPrice[]
+  sources          ProductSource[]
+
+  @@index([familyId])
+  @@index([generationId])
+  @@index([status])
+}
+
+model ProductVariant {
+  id           String       @id @default(cuid())
+  modelId      String
+  model        ProductModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  modelNumber  String
+  label        String
+  region       String?
+  connectivity String?
+  note         String?
+  order        Int          @default(0)
+
+  @@index([modelNumber])
+  @@index([modelId])
+}
+
+model ProductSpecification {
+  id         String            @id @default(cuid())
+  modelId    String
+  model      ProductModel      @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  group      String
+  groupLabel String
+  key        String
+  label      String
+  value      String
+  status     ValidationStatus?
+  order      Int               @default(0)
+
+  @@index([modelId, group])
+}
+
+model ProductColor {
+  id       String       @id @default(cuid())
+  modelId  String
+  model    ProductModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  name     String
+  nameFr   String?
+  /// Approximation visuelle à l'écran — jamais une valeur officielle
+  hex      String
+  finish   String?
+  material String?
+  note     String?
+  order    Int          @default(0)
+
+  @@index([modelId])
+}
+
+model ProductImage {
+  id        String       @id @default(cuid())
+  modelId   String
+  model     ProductModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String
+  license   String
+  credit    String
+  colorName String?
+  order     Int          @default(0)
+}
+
+model ProductAsset3D {
+  id      String       @id @default(cuid())
+  modelId String
+  model   ProductModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  url     String
+  format  String
+  license String
+  credit  String
+  isExact Boolean      @default(false)
+  notes   String?
+}
+
+model ProductCompatibility {
+  id         String       @id @default(cuid())
+  modelId    String
+  model      ProductModel @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  /// Slug de la fiche cible (peut référencer une fiche absente)
+  targetSlug String
+  note       String?
+
+  @@index([targetSlug])
+}
+
+model ProductPrice {
+  id       String           @id @default(cuid())
+  modelId  String
+  model    ProductModel     @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  market   String
+  currency String
+  amount   Decimal          @db.Decimal(12, 2)
+  config   String?
+  date     String
+  status   ValidationStatus @default(unverified)
+  order    Int              @default(0)
+}
+
+model ProductSource {
+  id        String           @id @default(cuid())
+  modelId   String
+  model     ProductModel     @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  url       String
+  type      String
+  title     String
+  checkedAt String?
+  status    ValidationStatus @default(unverified)
+  note      String?
+  order     Int              @default(0)
+}
+
+model PendingProduct {
+  id      String @id @default(cuid())
+  name    String
+  family  String
+  reason  String
+  /// [{ url, type, title, status }]
+  sources Json
+}
+
+model AuditLog {
+  id       String   @id @default(cuid())
+  at       DateTime @default(now())
+  actor    String
+  action   String
+  entity   String
+  entityId String
+  details  Json?
+
+  @@index([entity, entityId])
+  @@index([at])
+}

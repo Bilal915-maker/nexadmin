@@ -1,0 +1,156 @@
+/**
+ * Apple Vision et autres produits (iPod touch, AirTag).
+ */
+import { gens, makeDefiner, press } from './_define'
+
+const defineVision = makeDefiner({ family: 'vision', sources: [] })
+const defineOther = makeDefiner({ family: 'autres', sources: [] })
+
+export const visionGenerations = gens('vision', [
+  ['vision-pro-m2', 'vision-pro', 'Apple Vision Pro (M2)', 2024],
+  ['vision-pro-m5', 'vision-pro', 'Apple Vision Pro (M5)', 2025],
+])
+
+export const otherGenerations = gens('autres', [
+  ['ipod-touch-7', 'ipod', 'iPod touch (7e génération)', 2019],
+  ['airtag-1', 'airtag', 'AirTag (1re génération)', 2021],
+  ['airtag-2', 'airtag', 'AirTag (2e génération)', 2026],
+])
+
+export const visionModels = [
+  defineVision({
+    slug: 'apple-vision-pro',
+    name: 'Apple Vision Pro',
+    aliases: ['Vision Pro M2', 'Vision Pro 2024'],
+    line: 'vision-pro',
+    gen: 'vision-pro-m2',
+    a: '2023-06-05',
+    r: '2024-02-02',
+    d: '?',
+    statusNote: 'Remplacé par Apple Vision Pro (M5) en octobre 2025 — date de retrait à confirmer',
+    summary: 'Premier ordinateur spatial d’Apple : écrans micro-OLED de 23 millions de pixels, puces M2 et R1.',
+    hl: ['Micro-OLED 23 Mpx', 'Puces M2 + R1', 'Commande par les yeux et les mains', 'EyeSight'],
+    mn: ['A2117'],
+    colors: [['Silver', '#cfd0d2']],
+    storage: [256, 512, 1024],
+    ram: [16],
+    chips: ['M2', 'R1'],
+    os: 'visionOS 1.0',
+    dims: [[null, null, null, 650, 'Selon Light Seal et bandeau (600–650 g)']],
+    prices: [['US', 3499, '256 Go']],
+    specs: {
+      design: [['Matériaux', 'Verre feuilleté 3D, cadre en aluminium, Light Seal et bandeau textiles'], ['Batterie', 'Externe, reliée par câble']],
+      display: [['Technologie', 'Micro-OLED, 23 millions de pixels au total'], ['Fréquences', '90, 96 et 100 Hz']],
+      performance: [['Puces', 'M2 (calcul) + R1 (capteurs)'], ['Mémoire unifiée', '16 Go']],
+      camera: [['Caméras', '2 caméras principales 3D, 6 caméras de suivi, 4 caméras pour les yeux, scanner LiDAR, caméra TrueDepth']],
+      battery: [['Autonomie', 'Jusqu’à 2 h d’usage général, 2,5 h de vidéo (annoncé)']],
+      sensors: [['Biométrie', 'Optic ID (iris)']],
+      software: [['Système d’origine', 'visionOS 1']],
+    },
+    notes: ['Commercialisation initiale aux États-Unis le 2 février 2024 ; extension internationale en juin–juillet 2024.'],
+    visual: ['headset', {}],
+  }),
+  defineVision({
+    slug: 'apple-vision-pro-m5',
+    name: 'Apple Vision Pro (M5)',
+    line: 'vision-pro',
+    gen: 'vision-pro-m5',
+    a: '2025-10-15',
+    r: '2025-10-22',
+    summary: 'Vision Pro à puce M5, rendu plus fluide jusqu’à 120 Hz et bandeau Dual Knit.',
+    hl: ['Puce M5', 'Jusqu’à 120 Hz', 'Bandeau Dual Knit'],
+    colors: [['Silver', '#cfd0d2']],
+    storage: [256, 512, 1024],
+    chips: ['M5', 'R1'],
+    os: 'visionOS 26',
+    prices: [['US', 3499, '256 Go']],
+    specs: {
+      display: [['Fréquence', 'Jusqu’à 120 Hz']],
+      performance: [['Puces', 'M5 + R1']],
+      design: [['Bandeau', 'Dual Knit Band']],
+      software: [['Système d’origine', 'visionOS 26']],
+    },
+    notes: ['Dimensions, poids et mémoire non saisis.'],
+    visual: ['headset', {}],
+  }),
+]
+
+export const otherModels = [
+  defineOther({
+    slug: 'ipod-touch-7e-generation',
+    name: 'iPod touch (7e génération)',
+    line: 'ipod',
+    gen: 'ipod-touch-7',
+    a: '2019-05-28',
+    r: '2019-05-28',
+    d: '2022-05-10',
+    summary: 'Dernier iPod : puce A10 Fusion et jusqu’à 256 Go ; sa fin a clos la gamme iPod.',
+    hl: ['Dernier iPod', 'A10 Fusion', 'Jusqu’à 256 Go'],
+    ids: ['iPod9,1'],
+    mn: ['A2178'],
+    colors: [['Space Gray', '#5c5d61'], ['Silver', '#e3e4e6'], ['Gold', '#ecd6bd'], ['Pink', '#f1b7c6'], ['Blue', '#4aa4d8'], ['(PRODUCT)RED', '#b3142c']],
+    storage: [32, 128, 256],
+    chips: ['A10 Fusion'],
+    screen: 4,
+    connector: 'Lightning',
+    os: 'iOS 12.3',
+    dims: [[123.4, 58.6, 6.1, 88]],
+    prices: [['US', 199, '32 Go']],
+    specs: {
+      design: [['Matériaux', 'Aluminium anodisé']],
+      display: [['Taille', '4 pouces'], ['Technologie', 'Retina'], ['Résolution', '1136 × 640 px'], ['Densité', '326 ppp']],
+      performance: [['Puce', 'A10 Fusion']],
+      camera: [['Appareil arrière', '8 Mpx, ƒ/2.4'], ['Caméra avant', '1,2 Mpx']],
+      battery: [['Lecture audio', 'Jusqu’à 40 h (annoncé)'], ['Lecture vidéo', 'Jusqu’à 8 h (annoncé)']],
+      connectivity: [['Connecteur', 'Lightning'], ['Prise casque', 'Jack 3,5 mm'], ['Wi-Fi', '802.11ac'], ['Bluetooth', '4.1']],
+      software: [['Système d’origine', 'iOS 12.3'], ['Dernière version compatible', 'iOS 15']],
+    },
+    visual: ['phone', { corner: 9, cams: 'single-flat', front: 'home', edge: 'round', frame: 'aluminum', back: 'aluminum', ipod: true }],
+  }),
+  defineOther({
+    slug: 'airtag',
+    name: 'AirTag',
+    aliases: ['AirTag 1re génération'],
+    line: 'airtag',
+    gen: 'airtag-1',
+    a: '2021-04-20',
+    r: '2021-04-30',
+    d: '?',
+    statusNote: 'Remplacé par l’AirTag (2e génération) en janvier 2026 selon la presse',
+    summary: 'Balise de localisation à puce U1 (Ultra Wideband) pour le réseau Localiser.',
+    hl: ['Puce U1', 'Localisation précise', 'IP67', 'Pile CR2032'],
+    mn: ['A2187'],
+    colors: [['White / Silver', '#f2f2f2']],
+    dims: [[31.9, 31.9, 8.0, 11]],
+    prices: [['US', 29, '1 unité'], ['US', 99, 'Lot de 4']],
+    specs: {
+      design: [['Matériaux', 'Polycarbonate blanc, acier inoxydable poli'], ['Résistance', 'IP67']],
+      connectivity: [['Liaisons', 'Bluetooth LE, Ultra Wideband (U1), NFC']],
+      battery: [['Alimentation', 'Pile bouton CR2032 remplaçable, plus d’un an d’autonomie (annoncé)']],
+    },
+    notes: ['Numéro de modèle à vérifier.'],
+    visual: ['tag', {}],
+  }),
+  defineOther({
+    slug: 'airtag-2e-generation',
+    name: 'AirTag (2e génération)',
+    line: 'airtag',
+    gen: 'airtag-2',
+    a: '2026-01-26',
+    r: '2026-01-28',
+    v: 'reported',
+    summary: 'Portée et recherche améliorées, haut-parleur 50 % plus puissant (selon la presse).',
+    hl: ['Portée accrue', 'Haut-parleur +50 %'],
+    colors: [['White / Silver', '#f2f2f2']],
+    specs: {
+      audio: [['Haut-parleur', 'Volume augmenté de 50 % (rapporté)']],
+      connectivity: [['Localisation', 'Portée et localisation précise améliorées (rapporté)']],
+    },
+    notes: ['Prix non confirmé par les sources consultées.', 'Date de commercialisation : 28 janvier 2026 selon The Apple Wiki ; commandes au 27 janvier selon Gigazine.'],
+    sources: [
+      press('https://www.gigazine.net/gsc_news/en/20260127-apple-airtag-gen-2', 'Gigazine — Apple unveils second-generation AirTags'),
+      press('https://www.macrumors.com/2026/01/26/airtag-2-release-date-2', 'MacRumors — AirTag 2: Orders and Release Date'),
+    ],
+    visual: ['tag', {}],
+  }),
+]
